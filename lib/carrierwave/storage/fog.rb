@@ -453,7 +453,11 @@ module CarrierWave
         end
 
         def acl_header
-          {'x-amz-acl' => @uploader.fog_public ? 'public-read' : 'private'}
+          if ['Google'].include?(@uploader.fog_credentials[:provider])
+            {}
+          else
+            {'x-amz-acl' => @uploader.fog_public ? 'public-read' : 'private'}
+          end
         end
       end
 
